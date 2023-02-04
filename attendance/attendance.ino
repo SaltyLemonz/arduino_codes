@@ -7,8 +7,8 @@
 #include <LiquidCrystal_I2C.h>
 
 LiquidCrystal_I2C lcd(0x3F, 16, 2);
-constexpr uint8_t RST_PIN = D3;  // Configurable, see typical pin layout above
-constexpr uint8_t SS_PIN = D4;   // Configurable, see typical pin layout above
+constexpr uint8_t RST_PIN = D3;
+constexpr uint8_t SS_PIN = D4;
 
 MFRC522 rfid(SS_PIN, RST_PIN);  // Instance of the class
 MFRC522::MIFARE_Key key;
@@ -41,15 +41,14 @@ void loop() {
   lcd.setCursor(2, 0);
   lcd.print("Welcome");
   lcd.setCursor(1, 1);
-      Serial.println("Diptayan");
-      lcd.println("Diptayan");
+      Serial.println("Diptayan Jash");
+      lcd.println("Diptayan Jash");
       delay(2000);
     } else {
         lcd.clear();
   lcd.setCursor(2, 0);
   lcd.print("SUS!!!");
   lcd.setCursor(1, 1);
-      lcd.print(tag);
       Serial.println(tag);
       delay(2000);
     }
