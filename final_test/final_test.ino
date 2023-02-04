@@ -23,8 +23,8 @@ constexpr uint8_t cs = D8;  //NODE MCU
 // char *UID[] = {"249224147101", "UID2"};
 // char *name[] = {"Diptayan"};
 //maybe
-String UID[3] = { "20115312290", "249224147101","105199145101"};
-String name[3] = { "Krrish", "Diptayan","Ayan"};
+String UID[3] = { "20115312290", "249224147101", "105199145101" };
+String name[3] = { "Krrish", "Diptayan", "Ayan" };
 
 
 void setup() {
@@ -36,17 +36,17 @@ void setup() {
   rfid.PCD_Init();  // Init MFRC522
 
   //SD CARD
-  // Serial.println("Initializing SD card");
-  // if (!SD.begin(cs)) {
-  //   Serial.println("initialization failed");
-  //   while (1)
-  //     ;
-  // }
-  // Serial.println("initialization DONE");
-  // if (SD.exists("attendance.txt"))
-  //   Serial.println("FILE EXISTS");
-  // else
-  //   Serial.println("FILE DOESN'T EXISTS");
+  Serial.println("Initializing SD card");
+  if (!SD.begin(cs)) {
+    Serial.println("initialization failed");
+    while (1)
+      ;
+  }
+  Serial.println("initialization DONE");
+  if (SD.exists("attendance.txt"))
+    Serial.println("FILE EXISTS");
+  else
+    Serial.println("FILE DOESN'T EXISTS");
 }
 
 void loop() {
@@ -78,6 +78,10 @@ void loop() {
       Serial.println(name[pos]);
       lcd.println(name[pos]);
       delay(2000);
+      myfile = SD.open("attendance.txt", FILE_WRITE);
+      myfile.print(name[pos]);
+      Serial.println("WROTE IN FILE SUCCESSFUL");
+      myfile.close();
     } else {
       lcd.clear();
       lcd.setCursor(2, 0);
