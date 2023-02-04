@@ -6,7 +6,8 @@
 
 //DISPLAY
 LiquidCrystal_I2C lcd(0x3F, 16, 2);
-
+int flag;
+int pos = 0;
 //RFID
 constexpr uint8_t RST_PIN = D3;
 constexpr uint8_t SS_PIN = D4;
@@ -22,10 +23,9 @@ constexpr uint8_t cs = D8;  //NODE MCU
 // char *UID[] = {"249224147101", "UID2"};
 // char *name[] = {"Diptayan"};
 //maybe
-String UID[2] = { "249224147101", "20115312290" };
-String name[2] = { "Diptayan", "Krrish" };
+String UID[3] = { "20115312290", "249224147101","105199145101"};
+String name[3] = { "Krrish", "Diptayan","Ayan"};
 
-int pos;
 
 void setup() {
   lcd.init();
@@ -61,44 +61,31 @@ void loop() {
       tag += rfid.uid.uidByte[i];
     }
     //Serial.println(tag);
-
-    // if (tag == "249224147101") {
-    //   lcd.clear();
-    //   lcd.setCursor(2, 0);
-    //   lcd.print("Welcome");
-    //   lcd.setCursor(1, 1);
-    //   Serial.println("Diptayan");
-    //   lcd.println("Diptayan");
-    //   delay(2000);
-    // } else {
-    //   lcd.clear();
-    //   lcd.setCursor(2, 0);
-    //   lcd.print("SUS!!!");
-    //   lcd.setCursor(1, 1);
-    //   lcd.print(tag);
-    //   Serial.println(tag);
-    //   delay(2000);
-    // }
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < 3; i++) {
       if (tag == UID[i]) {
+        flag = 1;
         pos = i;
-        lcd.clear();
-        lcd.setCursor(2, 0);
-        lcd.print("Welcome");
-        lcd.setCursor(1, 1);
-        Serial.println(name[pos]);
-        lcd.println(name[pos]);
-        delay(2000);
-        } else {
-          lcd.clear();
-          lcd.setCursor(2, 0);
-          lcd.print("Who Tf is You ?");
-          lcd.setCursor(1, 1);
-          lcd.print(tag);
-            Serial.println(tag);
-          delay(2000);
-          break;
+        break;
+      } else {
+        flag = 0;
       }
+    }
+    if (flag == 1) {
+      lcd.clear();
+      lcd.setCursor(2, 0);
+      lcd.print("Welcome");
+      lcd.setCursor(1, 1);
+      Serial.println(name[pos]);
+      lcd.println(name[pos]);
+      delay(2000);
+    } else {
+      lcd.clear();
+      lcd.setCursor(2, 0);
+      lcd.print("Who Tf is You ?");
+      lcd.setCursor(1, 1);
+      lcd.print(tag);
+      Serial.println(tag);
+      delay(2000);
     }
     tag = "";
     rfid.PICC_HaltA();
